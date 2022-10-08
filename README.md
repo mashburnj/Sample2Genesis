@@ -14,9 +14,10 @@
  Done so far:
  - Spectrum analyzer, with a loop version which stores all spectra in a single CSV (DataFrame, with wav file names as indices)
  - A WAV to CSV script, which compiles the raw audio data into a CSV (I plan to use dimension reduction on this- we'll see how that goes)
+ - A Y12 to CSV script, which interprets the bytes in each instrument file and organizes the information in a CSV (another DataFrame)
  
  To do:
- - A Y12 to CSV script, which interprets the bytes in each instrument file and organizes the information in a CSV (another DataFrame)
+ - Fix a small bug in the Y12 script.
  - The ML training scripts. Will need one model for each of the 8 FM algorithms.
  - The ML prediction script. Has to be able to extract the raw audio and its spectrum, then give 8 different predictions, and compare. I'm still undecided on which metric to use to compare (L2 on the spectra, perhaps?).
  
