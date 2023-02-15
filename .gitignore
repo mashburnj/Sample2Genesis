@@ -1,3 +1,5 @@
-OLD_Training_data/
-Training_data/
-WAV_files/
+.old_data/
+data/
+patches/
+prototypes/.ipynb_checkpoints/
+wav/
