@@ -7,7 +7,7 @@
  It bases its prediction on the spectrum of an audio sample. The model will be trained using the spectra (features) and the aforementioned chip registers (targets) of samples taken from the output of a Sega Genesis.
 
 ## Comments about the scope of this project:
- I'll be happy to accomplish what I've promised above, as it forms the core essence of the sound. See the "In the future" list below for details on my plan to incorporate separate ADSR values for each operator- it involves a much more detailed spectral analysis, as well as sample data which includes release behavior (starting at the exact same point in time across all audio samples).
+ I'll be happy to accomplish what I've promised above, as it forms the core essence of the sound. See the "In the future" list below for details on my plan to incorporate note release behavior for each operator.
 
  I took a haitus in the fall, due to small sample size, but now I have ~5,600 samples, with each algorithm having at minimum 200 samples, which should be enough to train on.
 
@@ -20,6 +20,7 @@
 ## To do:
  - Algorithm 7's training script. This is the simplest FM algorithm: just additive synthesis with feedback on Operator 1.
  - The remaining ML training scripts. Will need one model for each of the 8 FM algorithms.
+ - Testing and improving the models.
  - The ML prediction software. Has to be able to extract the raw audio and its spectrum, then output 8 different predictions. Needs the above 8 models trained first.
  - If I use the raw audio data, a WAV CSV dimension reducer script, likely using PCA. With my old sample set, 64 components gave a 91% explained variance rating, with harshly diminishing returns beyond that point. If I use raw data, I'd like a similar rate.
  
