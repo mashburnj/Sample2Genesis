@@ -23,7 +23,7 @@
  - A WAV to CSV script, which compiles the raw audio data into a CSV.
  - A rescale & PCA script to reduce the raw audio data's dimensions. I chose 200 for dimension which appears to give good results, according to the plot found in the Jupyter notebook.
  - A Y12 to CSV script, which interprets the bytes in each instrument file and organizes the information in a CSV (another DataFrame)
- - Algorithm 7's neural network model in Keras, with 30 trial trainings (results are in metrics directory).
+ - Algorithm 7's neural network model in Keras, with 30 trial trainings (results are in metrics directory), using an AMD GPU with the ROCm drivers.
 
 ## To do:
  - Finish estimator script. All that remains on this is outputting predictions to .y12 format for use in music tracking software. Currently debugging this.
