@@ -20,10 +20,9 @@ os.chdir('./wav/')
 SampleList = np.array(os.listdir())
 SampleList = SampleList[ np.char.endswith(SampleList, '.wav') ] #ignore everything that's not a .wav file.
 
-index = pd.MultiIndex.from_product([np.arange(0,129),np.arange(0,629)], names = ['Frequency', 'Time'])
-columns = pd.Index(SampleList)
-SampleSpectra = pd.DataFrame(0, index=index, columns=columns)
-
+index = pd.Index(SampleList)
+SampleSpectra = pd.DataFrame(columns = np.arange(0,81141))
+# 0, 
 # For this approach, use available Python packages to extract full spectrogram.
 # Will likely use a CNN to mind the "shifts" in frequencies caused by pitch.
 progress_count = 0
@@ -33,7 +32,8 @@ for SampleName in SampleList:
     if dont_use_release:
         Audiodata = Audiodata[0:len(Audiodata)//2]
     frequencies, times, spectrogram = signal.spectrogram(Audiodata, SampleRate)
-    SampleSpectra[SampleName] = spectrogram.reshape(81141,1)
+    print(np.shape(spectrogram))
+    SampleSpectra.loc[SampleName] = spectrogram.flatten()#reshape(1,81141)
     progress_count += 1
     print('Samples processed: ', progress_count)
 

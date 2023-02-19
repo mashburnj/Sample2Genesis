@@ -17,7 +17,7 @@ os.chdir('./wav/')
 SampleList = np.array(os.listdir())
 SampleList = SampleList[ np.char.endswith(SampleList, '.wav') ] #ignore everything that's not a .wav file.
 
-index = pd.Index(np.arange(0,141419))
+index = pd.Index(np.arange(0,141120))
 columns = pd.Index(SampleList)
 SampleWav = pd.DataFrame(0, index = index, columns=columns)
 
@@ -32,6 +32,6 @@ for SampleName in SampleList:
     print('Samples processed: ', progress_count)
 
 os.chdir('..')
-SampleWav.to_csv('SampleWav.csv')
+SampleWav.T.to_csv('SampleWav.csv')
 
 print(SampleWav.head())
