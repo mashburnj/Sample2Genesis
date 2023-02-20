@@ -32,7 +32,5 @@ SampleList = SampleList[ np.char.endswith(SampleList, '.wav') ] #ignore everythi
 
 for SampleName in SampleList:
     for i in range(8):
-        if use_algorithm[i] and (i < 7):
-            print('Algorithm ' + str(i) +' model not implemented and/or tested yet.')
-        if use_algorithm[i] and (i >= 7):
+        if use_algorithm[i]:
             estimator(SampleName, i)

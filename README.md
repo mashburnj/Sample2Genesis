@@ -26,9 +26,9 @@
  - (Feb 17) Algorithm 7's neural network model in Keras, with 30 trial trainings (results are in metrics directory), using an AMD GPU with the ROCm drivers.
  - (Feb 19) Estimator script for all algorithms. It will take a WAV name and desired algorithm, load the appropriate model files, make the predictions, then output them as a Y12 synth patch file, ready for use in a Genesis music tracker.
  - (Feb 19) The main script, which searches the input directory for WAV files, then calls the estimator function 8 times for each of them, recording the results as ready-to-use Y12 files. (Currently, all but Algorithm 7's calls are dummied out, since I'm still working on the other models).
+ - (Feb 20) The remaining model training scripts. I've also linked these to a common training script and test script, for convenience. The main script now allows for use of all 8 algorithms, though 0 through 6 are off until I do some testing.
 
 ## To do:
- - The remaining ML training scripts. Will need one model for each of the 8 FM algorithms.
  - Testing and improving the models.
  
 ## In the future:
