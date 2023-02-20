@@ -18,18 +18,18 @@
  - patches (Collection of synth patch files in a binary format the Genesis can read)
  - wav (Recorded samples of the patch files being played in the Deflemask music tracker)
 
-## Done so far as of February 18:
+## Done so far:
  - Spectrum analyzer, with a loop version which stores all spectrograms in a single CSV (DataFrame, with wav file names as indices)
  - A WAV to CSV script, which compiles the raw audio data into a CSV.
- - A rescale & PCA script to reduce the raw audio data's dimensions. I chose 200 for dimension which appears to give good results, according to the plot found in the Jupyter notebook.
  - A Y12 to CSV script, which interprets the bytes in each instrument file and organizes the information in a CSV (another DataFrame)
- - Algorithm 7's neural network model in Keras, with 30 trial trainings (results are in metrics directory), using an AMD GPU with the ROCm drivers.
+ - (Feb 17) A rescale & PCA script to reduce the raw audio data's dimensions. I chose 200 for dimension which appears to give good results, according to the plot found in the Jupyter notebook.
+ - (Feb 17) Algorithm 7's neural network model in Keras, with 30 trial trainings (results are in metrics directory), using an AMD GPU with the ROCm drivers.
+ - (Feb 19) Estimator script for Algorithm 7. It will take a WAV file called "sample7.wav" for the time being, make the predictions, then output them as a Y12 synth patch file, ready for use in a Genesis music tracker.
 
 ## To do:
- - Finish estimator script. All that remains on this is outputting predictions to .y12 format for use in music tracking software. Currently debugging this.
  - The remaining ML training scripts. Will need one model for each of the 8 FM algorithms.
  - Testing and improving the models.
- - The ML prediction software. Has to be able to extract the raw audio and its spectrum, then output 8 different predictions. Needs the above 8 models trained first.
+ - The main script. Will search the directory for input WAV files, then apply all 8 models to each of them, recording the results as ready-to-use Y12 files.
  
 ## In the future:
  - Implement training for the release behavior.
