@@ -8,6 +8,7 @@ from scipy.io import wavfile
 from sklearn.decomposition import PCA
 from tensorflow.keras.models import Sequential, model_from_json
 from tensorflow.keras.layers import Dense
+from convert_to_y12 import convert_to_y12
 
 # Load sample
 SampleName = "sample7.wav" # Audio File
@@ -69,3 +70,5 @@ print('Predicted registers: ')
 
 for i in np.arange(0,37):
     print(labels[i], ':', predictions[0][i], '. Rounded:', predictions[0][i].round())
+
+convert_to_y12(7, predictions, SampleName)
