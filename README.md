@@ -25,11 +25,11 @@
  - (Feb 17) A rescale & PCA script to reduce the raw audio data's dimensions. I chose 200 for dimension which appears to give good results, according to the plot found in the Jupyter notebook.
  - (Feb 17) Algorithm 7's neural network model in Keras, with 30 trial trainings (results are in metrics directory), using an AMD GPU with the ROCm drivers.
  - (Feb 19) Estimator script for Algorithm 7. It will take a WAV file called "sample7.wav" for the time being, make the predictions, then output them as a Y12 synth patch file, ready for use in a Genesis music tracker.
+ - (Feb 19) The main script, which searches the input directory for WAV files, then calls all 8 estimator functions for each of them, recording the results as ready-to-use Y12 files. (Currently, all but Algorithm 7's calls are dummied out, since I'm still working on the other models).
 
 ## To do:
  - The remaining ML training scripts. Will need one model for each of the 8 FM algorithms.
  - Testing and improving the models.
- - The main script. Will search the directory for input WAV files, then apply all 8 models to each of them, recording the results as ready-to-use Y12 files.
  
 ## In the future:
  - Implement training for the release behavior.
