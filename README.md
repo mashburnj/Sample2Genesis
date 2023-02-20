@@ -24,8 +24,8 @@
  - A Y12 to CSV script, which interprets the bytes in each instrument file and organizes the information in a CSV (another DataFrame)
  - (Feb 17) A rescale & PCA script to reduce the raw audio data's dimensions. I chose 200 for dimension which appears to give good results, according to the plot found in the Jupyter notebook.
  - (Feb 17) Algorithm 7's neural network model in Keras, with 30 trial trainings (results are in metrics directory), using an AMD GPU with the ROCm drivers.
- - (Feb 19) Estimator script for Algorithm 7. It will take a WAV file called "sample7.wav" for the time being, make the predictions, then output them as a Y12 synth patch file, ready for use in a Genesis music tracker.
- - (Feb 19) The main script, which searches the input directory for WAV files, then calls all 8 estimator functions for each of them, recording the results as ready-to-use Y12 files. (Currently, all but Algorithm 7's calls are dummied out, since I'm still working on the other models).
+ - (Feb 19) Estimator script for all algorithms. It will take a WAV name and desired algorithm, load the appropriate model files, make the predictions, then output them as a Y12 synth patch file, ready for use in a Genesis music tracker.
+ - (Feb 19) The main script, which searches the input directory for WAV files, then calls the estimator function 8 times for each of them, recording the results as ready-to-use Y12 files. (Currently, all but Algorithm 7's calls are dummied out, since I'm still working on the other models).
 
 ## To do:
  - The remaining ML training scripts. Will need one model for each of the 8 FM algorithms.
@@ -33,6 +33,9 @@
  
 ## In the future:
  - Implement training for the release behavior.
- - Switch from Deflemask to a custom Genesis ROM which will play all instruments in the training set one after the other, while Audacity records the output (either through Regen or a Genesis).
+ - Switch from Deflemask to a custom Genesis ROM which will play all instruments in the training set one after the other, while Audacity records the output (either through Regen or my own Genesis*).
  - Find an FM synthesis library for Python so I can generate audio based on the predictions and compare either the spectra, raw audio output, or both, likely using the L2 error metric.
   - Rebuild this in PyTorch just for fun.
+ 
+ \*I might need to replace the capacitors and amp circuit on it first, to ensure the cleanest possible sound output.
+
