@@ -34,5 +34,5 @@
 ## In the future:
  - Implement training for the release behavior.
  - Switch from Deflemask to a custom Genesis ROM which will play all instruments in the training set one after the other, while Audacity records the output (either through Regen or a Genesis).
- - Find an FM synthesis library for Python so I can generate audio based on the predictions and compare either the spectra, raw audio output, or both, likely using least-squares.
-  - Rebuild this in PyTorch just for the practice.
+ - Find an FM synthesis library for Python so I can generate audio based on the predictions and compare either the spectra, raw audio output, or both, likely using the L2 error metric.
+  - Rebuild this in PyTorch just for fun.
