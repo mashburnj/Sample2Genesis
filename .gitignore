@@ -1,7 +1,6 @@
 .old_data/
 data/
 models/
-output/
 patches/
 prototypes/.ipynb_checkpoints/
 wav/

@@ -71,4 +71,4 @@ print('Predicted registers: ')
 for i in np.arange(0,37):
     print(labels[i], ':', predictions[0][i], '. Rounded:', predictions[0][i].round())
 
-convert_to_y12(7, predictions, SampleName)
+convert_to_y12(7, predictions[0].round(), SampleName)

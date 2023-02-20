@@ -49,7 +49,9 @@ def convert_to_y12(algorithm, predictions, sample_name):
     output[64] = algorithm
     output[65] = predictions[0] # feedback
     
-    patchname = sample_name + '_' + algorithm + '.y12' 
+    os.chdir('..')
+    os.chdir('./output/')
+    patchname = sample_name + '_' + str(algorithm) + '.y12' 
     with open(patchname, 'wb') as f: 
         bytelist = [int(i).to_bytes(1,'big') for i in output]
         bytesum = bytelist[0]
