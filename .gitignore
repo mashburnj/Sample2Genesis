@@ -1,6 +1,10 @@
 .old_data/
 data/
+input/
 models/
 patches/
 prototypes/.ipynb_checkpoints/
+src/__pycache__/
+train/.ipynb_checkpoints/
+train/__pycache__/
 wav/
