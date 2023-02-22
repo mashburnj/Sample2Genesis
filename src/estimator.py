@@ -48,7 +48,7 @@ def estimator(SampleName: str, algorithm: int):
     json_file.close()
     model = model_from_json(loaded_model_json)
     # load weights into new model
-    model.load_weights("model6.h5")
+    model.load_weights('model'+ str(algorithm) + '.h5')
     print("Loaded model from disk")
     
     #model.compile(loss='mean_square_error', optimizer='adam', metrics=['mean_square_error'])
@@ -59,4 +59,5 @@ def estimator(SampleName: str, algorithm: int):
     predictions[0][12] -= 4 # Operation was done to make DT >= 0 due to using ReLU.
     predictions[0][21] -= 4
     predictions[0][30] -= 4
+    
     convert_to_y12(algorithm, predictions[0].round(), SampleName)

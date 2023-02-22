@@ -13,13 +13,13 @@ When the predictors are finished, you will find the patch files in the output di
 """
 use_algorithm = [False] * 8
 # These are indexed according to their corresponding algorithms!
-use_algorithm[0] = False
-use_algorithm[1] = False
-use_algorithm[2] = False
-use_algorithm[3] = False
-use_algorithm[4] = False
-use_algorithm[5] = False
-use_algorithm[6] = False
+use_algorithm[0] = True
+use_algorithm[1] = True
+use_algorithm[2] = True
+use_algorithm[3] = True
+use_algorithm[4] = True
+use_algorithm[5] = True
+use_algorithm[6] = True
 use_algorithm[7] = True
 
 # Open directory with samples in it.
@@ -34,3 +34,5 @@ for SampleName in SampleList:
     for i in range(8):
         if use_algorithm[i]:
             estimator(SampleName, i)
+            os.chdir('..')
+            os.chdir('./input/')
