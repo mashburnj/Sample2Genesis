@@ -12,16 +12,14 @@ def convert_to_y12(algorithm, predictions, sample_name):
     #'TL3', 'Multiple3', 'DT3', 'RS3', 'AttackLv3', 'AM3', 'Decay1Lv3', 'SustainLv3', 'Decay2Lv3',
     #'TL4', 'Multiple4', 'DT4', 'RS4', 'AttackLv4', 'AM4', 'Decay1Lv4', 'SustainLv4', 'Decay2Lv4']
     # DT is indexed 0, 1, 2, 3, -1, -2, -3, but not so in the .y12 format, so have to convert.
-    if predictions[0] < 0: # Fixing feedback range issues resulting from rounding to -1, 8, etc.
-        predictions[0] = 0
-    if predictions[0] > 7:
+    if predictions[0] > 7: # Fixing feedback range issues resulting from rounding to -1, 8, etc.
         predictions[0] = 7
-    for i in np.arange(0,3): # Fixing similar rounding issues for TL1
-        if predictions[1 + 9*i] < 0:
-            predictions[1 + 9*i] = 0
-        if predictions[1 + 9*i] > 4:
-            predictions[1 + 9*i] = 4
-
+    for i in np.arange(0,3): # Fixing similar rounding issues for TL
+        if predictions[1 + 9*i] > 127:
+            predictions[1 + 9*i] = 127
+    for i in np.arange(0,3): # Fixing similar rounding issues for Multiple
+        if predictions[2 + 9*i] > 15:
+            predictions[2 + 9*i] = 15
     for i in np.arange(0,3): # Fixing DT
         if predictions[3 + 9*i] < -3:
             predictions[3 + 9*i] = -3
@@ -35,6 +33,25 @@ def convert_to_y12(algorithm, predictions, sample_name):
             predictions[3 + 9*i] = 6
         if predictions[3 + 9*i] == -3:
             predictions[3 + 9*i] = 7
+    for i in np.arange(0,3): # Fixing similar rounding issues for RS
+        if predictions[4 + 9*i] > 3:
+            predictions[4 + 9*i] = 3
+    for i in np.arange(0,3): # Fixing similar rounding issues for AttackLv
+        if predictions[5 + 9*i] > 31:
+            predictions[5 + 9*i] = 31
+    for i in np.arange(0,3): # Fixing similar rounding issues for AM
+        if predictions[6 + 9*i] > 1:
+            predictions[6 + 9*i] = 1
+    for i in np.arange(0,3): # Fixing similar rounding issues for Decay1Lv
+        if predictions[7 + 9*i] > 31:
+            predictions[7 + 9*i] = 31
+    for i in np.arange(0,3): # Fixing similar rounding issues for SustainLv
+        if predictions[8 + 9*i] > 15:
+            predictions[8 + 9*i] = 15
+    for i in np.arange(0,3): # Fixing similar rounding issues for Decay2Lv
+        if predictions[9 + 9*i] > 31:
+            predictions[9 + 9*i] = 31
+
     predictions = [max(i, 0) for i in predictions] # In case the estimator rounded down to -1.
 
     output = np.zeros(128)
