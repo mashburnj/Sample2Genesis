@@ -7,7 +7,7 @@ from sklearn.preprocessing import StandardScaler #Can also try MinMaxScaler or M
 from tensorflow.keras.models import Sequential, model_from_json # Will experiment with various architectures
 from tensorflow.keras import layers
 
-def model7_prep(use_wav: bool, use_pca: bool):
+def model7_prep(use_wav: bool):
     # Load training and validation data.
     os.chdir('..')
     os.chdir('./data/')
@@ -23,7 +23,6 @@ def model7_prep(use_wav: bool, use_pca: bool):
         ValWav = pd.read_csv('ValWav7.csv', index_col = 0)
         ValidationFeatures = pd.concat([ValidationFeatures, ValWav], axis = 1, join = 'inner')
         del ValWav
-    if use_pca:
         # Have to rescale before using PCA
         scaler = StandardScaler()
         SampleFeatures = scaler.fit_transform(SampleFeatures)
@@ -73,5 +72,5 @@ def model7_train(save_to_disk: bool, TrainFeatures, TrainTargets, ValFeatures, V
     return loss
 
 # If running this as a standalone, uncomment the following:
-# RF, RT, VF, VT = model7_prep(use_wav = False, use_pca = False)
+# RF, RT, VF, VT = model7_prep(use_wav = False)
 # model7_train(save_to_disk = True, RF, RT, VF, VT)

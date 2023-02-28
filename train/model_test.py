@@ -21,16 +21,16 @@ test_algorithm[2] = False
 test_algorithm[3] = False
 test_algorithm[4] = False
 test_algorithm[5] = False
-test_algorithm[6] = True
-test_algorithm[7] = False
+test_algorithm[6] = False
+test_algorithm[7] = True
 
-number_of_tests = 30
+number_of_tests = 10
 
 if test_algorithm[0]:
     results = pd.DataFrame(columns = ['loss','mean_square_error', 'mean_absolute_error'])
-    RF, RT = model0_prep()
+    RF, RT, VF, VT = model0_prep(False)
     for i in np.arange(0,number_of_tests):
-        results.loc[i] = model0_train(save_to_disk = False, RedFeatures = RF, RegTargets = RT)
+        results.loc[i] = model0_train(save_to_disk = False, RedFeatures = RF, RegTargets = RT, ValFeatures = VF, ValTargets = VT)
     results.loc['Mean'] = [np.mean(results['loss']), np.mean(results['mean_square_error']), np.mean(results['mean_absolute_error'])]
     results.loc['Standard Deviation'] = [np.std(results['loss']), np.std(results['mean_square_error']), np.std(results['mean_absolute_error'])]
     os.chdir('..')
@@ -39,9 +39,9 @@ if test_algorithm[0]:
 
 if test_algorithm[1]:
     results = pd.DataFrame(columns = ['loss','mean_square_error', 'mean_absolute_error'])
-    RF, RT = model1_prep()
+    RF, RT, VF, VT = model1_prep(False)
     for i in np.arange(0,number_of_tests):
-        results.loc[i] = model1_train(save_to_disk = False, RedFeatures = RF, RegTargets = RT)
+        results.loc[i] = model1_train(save_to_disk = False, RedFeatures = RF, RegTargets = RT, ValFeatures = VF, ValTargets = VT)
     results.loc['Mean'] = [np.mean(results['loss']), np.mean(results['mean_square_error']), np.mean(results['mean_absolute_error'])]
     results.loc['Standard Deviation'] = [np.std(results['loss']), np.std(results['mean_square_error']), np.std(results['mean_absolute_error'])]
     os.chdir('..')
@@ -50,9 +50,9 @@ if test_algorithm[1]:
 
 if test_algorithm[2]:
     results = pd.DataFrame(columns = ['loss','mean_square_error', 'mean_absolute_error'])
-    RF, RT = model2_prep()
+    RF, RT, VF, VT = model2_prep(False)
     for i in np.arange(0,number_of_tests):
-        results.loc[i] = model2_train(save_to_disk = False, RedFeatures = RF, RegTargets = RT)
+        results.loc[i] = model2_train(save_to_disk = False, RedFeatures = RF, RegTargets = RT, ValFeatures = VF, ValTargets = VT)
     results.loc['Mean'] = [np.mean(results['loss']), np.mean(results['mean_square_error']), np.mean(results['mean_absolute_error'])]
     results.loc['Standard Deviation'] = [np.std(results['loss']), np.std(results['mean_square_error']), np.std(results['mean_absolute_error'])]
     os.chdir('..')
@@ -61,9 +61,9 @@ if test_algorithm[2]:
 
 if test_algorithm[3]:
     results = pd.DataFrame(columns = ['loss','mean_square_error', 'mean_absolute_error'])
-    RF, RT = model3_prep()
+    RF, RT, VF, VT = model3_prep(False)
     for i in np.arange(0,number_of_tests):
-        results.loc[i] = model3_train(save_to_disk = False, RedFeatures = RF, RegTargets = RT)
+        results.loc[i] = model3_train(save_to_disk = False, RedFeatures = RF, RegTargets = RT, ValFeatures = VF, ValTargets = VT)
     results.loc['Mean'] = [np.mean(results['loss']), np.mean(results['mean_square_error']), np.mean(results['mean_absolute_error'])]
     results.loc['Standard Deviation'] = [np.std(results['loss']), np.std(results['mean_square_error']), np.std(results['mean_absolute_error'])]
     os.chdir('..')
@@ -72,9 +72,9 @@ if test_algorithm[3]:
 
 if test_algorithm[4]:
     results = pd.DataFrame(columns = ['loss','mean_square_error', 'mean_absolute_error'])
-    RF, RT = model4_prep()
+    RF, RT, VF, VT = model4_prep(False)
     for i in np.arange(0,number_of_tests):
-        results.loc[i] = model4_train(save_to_disk = False, RedFeatures = RF, RegTargets = RT)
+        results.loc[i] = model4_train(save_to_disk = False, RedFeatures = RF, RegTargets = RT, ValFeatures = VF, ValTargets = VT)
     results.loc['Mean'] = [np.mean(results['loss']), np.mean(results['mean_square_error']), np.mean(results['mean_absolute_error'])]
     results.loc['Standard Deviation'] = [np.std(results['loss']), np.std(results['mean_square_error']), np.std(results['mean_absolute_error'])]
     os.chdir('..')
@@ -83,9 +83,9 @@ if test_algorithm[4]:
 
 if test_algorithm[5]:
     results = pd.DataFrame(columns = ['loss','mean_square_error', 'mean_absolute_error'])
-    RF, RT = model5_prep()
+    RF, RT, VF, VT = model5_prep(False)
     for i in np.arange(0,number_of_tests):
-        results.loc[i] = model5_train(save_to_disk = False, RedFeatures = RF, RegTargets = RT)
+        results.loc[i] = model5_train(save_to_disk = False, RedFeatures = RF, RegTargets = RT, ValFeatures = VF, ValTargets = VT)
     results.loc['Mean'] = [np.mean(results['loss']), np.mean(results['mean_square_error']), np.mean(results['mean_absolute_error'])]
     results.loc['Standard Deviation'] = [np.std(results['loss']), np.std(results['mean_square_error']), np.std(results['mean_absolute_error'])]
     os.chdir('..')
@@ -94,9 +94,9 @@ if test_algorithm[5]:
 
 if test_algorithm[6]:
     results = pd.DataFrame(columns = ['loss','mean_square_error', 'mean_absolute_error'])
-    RF, RT = model6_prep()
+    RF, RT, VF, VT = model6_prep(False)
     for i in np.arange(0,number_of_tests):
-        results.loc[i] = model6_train(save_to_disk = False, RedFeatures = RF, RegTargets = RT)
+        results.loc[i] = model6_train(save_to_disk = False, RedFeatures = RF, RegTargets = RT, ValFeatures = VF, ValTargets = VT)
     results.loc['Mean'] = [np.mean(results['loss']), np.mean(results['mean_square_error']), np.mean(results['mean_absolute_error'])]
     results.loc['Standard Deviation'] = [np.std(results['loss']), np.std(results['mean_square_error']), np.std(results['mean_absolute_error'])]
     os.chdir('..')
@@ -105,9 +105,9 @@ if test_algorithm[6]:
 
 if test_algorithm[7]:
     results = pd.DataFrame(columns = ['loss','mean_square_error', 'mean_absolute_error'])
-    RF, RT = model7_prep()
+    RF, RT, VF, VT = model7_prep(False)
     for i in np.arange(0,number_of_tests):
-        results.loc[i] = model7_train(save_to_disk = False, RedFeatures = RF, RegTargets = RT)
+        results.loc[i] = model7_train(save_to_disk = False, RedFeatures = RF, RegTargets = RT, ValFeatures = VF, ValTargets = VT)
     results.loc['Mean'] = [np.mean(results['loss']), np.mean(results['mean_square_error']), np.mean(results['mean_absolute_error'])]
     results.loc['Standard Deviation'] = [np.std(results['loss']), np.std(results['mean_square_error']), np.std(results['mean_absolute_error'])]
     os.chdir('..')

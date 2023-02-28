@@ -7,7 +7,7 @@ from scipy.fft import fft
 from scipy.io import wavfile
 from sklearn.decomposition import PCA
 from tensorflow.keras.models import Sequential, model_from_json
-from tensorflow.keras.layers import Dense
+from tensorflow.keras import layers
 from convert_to_y12 import convert_to_y12
 
 def estimator(SampleName: str, algorithm: int):
@@ -20,29 +20,30 @@ def estimator(SampleName: str, algorithm: int):
     frequencies, times, spectrogram = signal.spectrogram(Audiodata, SampleRate)
     del frequencies
     del times
-    print(np.shape(spectrogram))
+    SampleFeatures = spectrogram
+    print(np.shape(SampleFeatures))
 
-    SampleFeatures = np.append(spectrogram.flatten(), Audiodata).reshape(1,-1)
+    # SampleFeatures = np.append(spectrogram.flatten(), Audiodata).reshape(1,-1)
 
     # Load parameters for scaling data.
-    os.chdir('..')
-    os.chdir('./models/')
-    mean = np.loadtxt('mean'+ str(algorithm) + '.csv', delimiter = ',')
-    stdev = np.loadtxt('scale' + str(algorithm) + '.csv', delimiter = ',')
+    # mean = np.loadtxt('mean'+ str(algorithm) + '.csv', delimiter = ',')
+    # stdev = np.loadtxt('scale' + str(algorithm) + '.csv', delimiter = ',')
     # Z = (x - m)/s
-    SampleFeatures = (SampleFeatures - mean)/stdev
-    del mean
-    del stdev
+    # SampleFeatures = (SampleFeatures - mean)/stdev
+    # del mean
+    # del stdev
 
     # Load PCA model.
-    pca = pk.load(open('pca'+ str(algorithm) + '.pkl','rb'))
-    print("Loaded PCA from disk")
-    ReducedFeatures = pca.transform(SampleFeatures)
-    del SampleFeatures
-    del pca
-    del spectrogram
+    #pca = pk.load(open('pca'+ str(algorithm) + '.pkl','rb'))
+    #print("Loaded PCA from disk")
+    #ReducedFeatures = pca.transform(SampleFeatures)
+    #del SampleFeatures
+    #del pca
+    #del spectrogram
 
     # Load NN model.
+    os.chdir('..')
+    os.chdir('./models/')
     json_file = open('model'+ str(algorithm) + '.json', 'r')
     loaded_model_json = json_file.read()
     json_file.close()
@@ -53,7 +54,7 @@ def estimator(SampleName: str, algorithm: int):
     
     #model.compile(loss='mean_square_error', optimizer='adam', metrics=['mean_square_error'])
 
-    predictions = model.predict(ReducedFeatures)
+    predictions = model.predict(SampleFeatures)
 
     predictions[0][3] -= 4 # To reverse the operation done to the training set.
     predictions[0][12] -= 4 # Operation was done to make DT >= 0 due to using ReLU.
