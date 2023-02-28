@@ -1,7 +1,6 @@
 .old_data/
 data/
 input/
-models/
 patches/
 prototypes/.ipynb_checkpoints/
 src/__pycache__/
