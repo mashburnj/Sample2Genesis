@@ -14,7 +14,7 @@ dont_use_release = True
 
 # Open directory with samples in it.
 os.chdir('..')
-os.chdir('./wav/')
+os.chdir('./val_wav/')
 
 # next, make a NP array of every wav file in the directory
 SampleList = np.array(os.listdir())
@@ -38,6 +38,6 @@ for SampleName in SampleList:
     print('Samples processed: ', progress_count)
 
 os.chdir('..')
-SampleSpectra.to_csv('SampleSpectra.csv')
+SampleSpectra.to_csv('ValSpectra.csv')
 
 print(SampleSpectra.head())

@@ -6,7 +6,7 @@ from scipy.io import wavfile
 
 # Open directory with the patches in it.
 os.chdir('..')
-os.chdir('./patches/')
+os.chdir('./val_patches/')
 
 # Make a NP array of every y12 file in the directory
 SampleList = np.array(os.listdir())
@@ -116,7 +116,7 @@ for SampleName in SampleList:
 
 
 os.chdir('..')
-SampleRegisters.T.to_csv('SampleRegisters.csv')
+SampleRegisters.T.to_csv('ValRegisters.csv')
 
 print('The first few samples\' registers for your viewing pleasure:')
 print('Note that the last 16 columns are there for arithmetic checking, and will NOT be needed past this point.')

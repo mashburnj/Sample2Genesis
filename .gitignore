@@ -7,4 +7,6 @@ prototypes/.ipynb_checkpoints/
 src/__pycache__/
 train/.ipynb_checkpoints/
 train/__pycache__/
+val_patches/
+val_wav/
 wav/
