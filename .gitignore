@@ -1,6 +1,5 @@
 .old_data/
 data/
-input/
 patches/
 prototypes/.ipynb_checkpoints/
 src/__pycache__/
