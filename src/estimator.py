@@ -20,7 +20,7 @@ def estimator(SampleName: str, algorithm: int):
     frequencies, times, spectrogram = signal.spectrogram(Audiodata, SampleRate)
     del frequencies
     del times
-    SampleFeatures = spectrogram
+    SampleFeatures = spectrogram.flatten()
     print(np.shape(SampleFeatures))
 
     # SampleFeatures = np.append(spectrogram.flatten(), Audiodata).reshape(1,-1)
