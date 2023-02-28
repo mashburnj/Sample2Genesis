@@ -8,48 +8,59 @@ from tensorflow.keras.models import Sequential, model_from_json # Will experimen
 from tensorflow.keras import layers
 
 def model7_prep(use_wav: bool, use_pca: bool):
-    # Load training data.
+    # Load training and validation data.
     os.chdir('..')
     os.chdir('./data/')
     RegisterTargets = pd.read_csv('SampleRegisters7.csv', index_col = 0)
     SampleFeatures = pd.read_csv('SampleSpectra7.csv', index_col = 0)
+    ValidationTargets = pd.read_csv('ValRegisters7.csv', index_col = 0)
+    ValidationFeatures = pd.read_csv('ValSpectra7.csv', index_col = 0)
+    
     if use_wav:
         SampleWav = pd.read_csv('SampleWav7.csv', index_col = 0)
         SampleFeatures = pd.concat([SampleFeatures, SampleWav], axis = 1, join = 'inner')
         del SampleWav
+        ValWav = pd.read_csv('ValWav7.csv', index_col = 0)
+        ValidationFeatures = pd.concat([ValidationFeatures, ValWav], axis = 1, join = 'inner')
+        del ValWav
     if use_pca:
         # Have to rescale before using PCA
         scaler = StandardScaler()
         SampleFeatures = scaler.fit_transform(SampleFeatures)
+        ValidationFeatures = scaler.fit_transform(ValidationFeatures)
         #Load PCA model for this set of data.
         os.chdir('..')
         os.chdir('./models/')
         pca = pk.load(open('pca7.pkl','rb'))
         SampleFeatures = pca.transform(SampleFeatures)
+        ValidationFeatures = pca.transform(ValidationFeatures)
         del pca
     for DTcol in ['DT1', 'DT2', 'DT3', 'DT4']:
         RegisterTargets[DTcol] = RegisterTargets[DTcol] + 4 # Make this non-zero for ReLU.
-    return SampleFeatures, RegisterTargets
+        ValidationTargets[DTcol] = ValidationTargets[DTcol] + 4 # Make this non-zero for ReLU.
+    return SampleFeatures, RegisterTargets, ValidationFeatures, ValidationTargets
 
 def model7_train(save_to_disk: bool, TrainFeatures, TrainTargets, ValFeatures, ValTargets):
     # Building the model
-    model7 = Sequential()
-    model7.add(layers.Input(shape = (81141,)))
-    model7.add(layers.Dense(220, activation='relu'))
-    model7.add(layers.Dense(200, activation='relu'))
-    model7.add(layers.Dense(180, activation='relu'))
-    model7.add(layers.Dense(160, activation='relu'))
-    model7.add(layers.Dense(140, activation='relu'))
-    model7.add(layers.Dense(120, activation='relu'))
-    model7.add(layers.Dense(100, activation='relu'))
-    model7.add(layers.Dense(80, activation='relu'))
-    model7.add(layers.Dense(37, activation='relu')) # 41 numerical outputs, but only 37 if we exclude release.
-    # To do: experiment (more) with loss and optimizer options.
+    model7 = Sequential([
+        layers.Input(shape = (81141,)),
+        layers.Reshape((129, 629, 1)),
+        layers.Resizing(height = 129, width = 129),
+        layers.Normalization(mean = 126, variance = 165000), # Stdev ~= 406. Calculated from model 7's spectra csv.
+        layers.Conv2D(4, 3, activation='relu'),
+        layers.MaxPooling2D(),
+        layers.Conv2D(4, 3, activation='relu'),
+        layers.Flatten(),
+        layers.Dense(200, activation='relu'),
+        layers.Dense(160, activation='relu'),
+        layers.Dense(120, activation='relu'),
+        layers.Dense(80, activation='relu'),
+        layers.Dense(37, activation='relu')
+    ]) # 41 numerical outputs, but only 37 if we exclude release.
     model7.compile(loss = 'mean_squared_error', optimizer = 'adam', metrics = ['mean_squared_error', 'mean_absolute_error'])
-    model7.fit(TrainFeatures,TrainTargets,epochs = 750, batch_size = 3)
-    # To do: determine more insightful metrics. I know that MAPE is useless for my purposes, since we have zeros in our targets.
+    model7.fit(TrainFeatures,TrainTargets,epochs = 500, batch_size = 4)
     loss  = model7.evaluate(ValFeatures, ValTargets)
-    print('Loss: ', loss)
+    print('Loss on Validation Set: ', loss)
     if save_to_disk:
         # Saving model to JSON and weights to H5.
         os.chdir('..')
@@ -62,5 +73,5 @@ def model7_train(save_to_disk: bool, TrainFeatures, TrainTargets, ValFeatures, V
     return loss
 
 # If running this as a standalone, uncomment the following:
-# RF, RT = model7_prep()
-# model7_train(save_to_disk = True, RF, RT)
+# RF, RT, VF, VT = model7_prep(use_wav = False, use_pca = False)
+# model7_train(save_to_disk = True, RF, RT, VF, VT)
