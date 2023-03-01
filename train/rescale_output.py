@@ -16,21 +16,21 @@ def rescale_output(RegTargets, ValTargets):
         RegTargets[DTcol] = RegTargets[DTcol] + 4 # Make this non-zero for ReLU.
         ValTargets[DTcol] = ValTargets[DTcol] + 4 # Make this non-zero for ReLU.
     for range4 in ['RS1', 'RS2', 'RS3', 'RS4']:
-        RegTargets[range8] = RegTargets[range8] / 3.0
-        ValTargets[range8] = ValTargets[range8] / 3.0
+        RegTargets[range4] = RegTargets[range8] / 3.0
+        ValTargets[range4] = ValTargets[range8] / 3.0
     for range8 in ['Feedback', 'DT1', 'DT2', 'DT3', 'DT4']:
         RegTargets[range8] = RegTargets[range8] / 7.0
         ValTargets[range8] = ValTargets[range8] / 7.0
     for range16 in ['Multiple1', 'Multiple2', 'Multiple3', 'Multiple4',
                     'SustainLv1', 'SustainLv2', 'SustainLv3', 'SustainLv4']:
-        RegTargets[range8] = RegTargets[range8] / 15.0
-        ValTargets[range8] = ValTargets[range8] / 15.0
+        RegTargets[range16] = RegTargets[range8] / 15.0
+        ValTargets[range16] = ValTargets[range8] / 15.0
     for range32 in ['AttackLv1', 'AttackLv2', 'AttackLv3', 'AttackLv4',
                     'Decay1Lv1', 'Decay1Lv2', 'Decay1Lv3', 'Decay1Lv4',
                     'Decay2Lv1', 'Decay2Lv2', 'Decay2Lv3', 'Decay2Lv4']:
-        RegTargets[range8] = RegTargets[range8] / 31.0
-        ValTargets[range8] = ValTargets[range8] / 31.0
+        RegTargets[range32] = RegTargets[range8] / 31.0
+        ValTargets[range32] = ValTargets[range8] / 31.0
     for range128 in ['TL1', 'TL2', 'TL3', 'TL4']:
-        RegTargets[range8] = RegTargets[range8] / 127.0
-        ValTargets[range8] = ValTargets[range8] / 127.0
+        RegTargets[range128] = RegTargets[range8] / 127.0
+        ValTargets[range128] = ValTargets[range8] / 127.0
     return RegTargets, ValTargets
