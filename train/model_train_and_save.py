@@ -1,13 +1,13 @@
 import numpy as np
 import os
 import pandas as pd
-#from model0_train import model0_prep, model0_train
-#from model1_train import model1_prep, model1_train
-#from model2_train import model2_prep, model2_train
-#from model3_train import model3_prep, model3_train
-#from model4_train import model4_prep, model4_train
-#from model5_train import model5_prep, model5_train
-#from model6_train import model6_prep, model6_train
+from model0_train import model0_prep, model0_train
+from model1_train import model1_prep, model1_train
+from model2_train import model2_prep, model2_train
+from model3_train import model3_prep, model3_train
+from model4_train import model4_prep, model4_train
+from model5_train import model5_prep, model5_train
+from model6_train import model6_prep, model6_train
 from model7_train import model7_prep, model7_train
 # Run this to train all the algorithms' models at once!
 # Make changes to PCA design in the respective model#_pca.ipynb notebooks.
@@ -15,14 +15,14 @@ from model7_train import model7_prep, model7_train
 
 train_algorithm = [False] * 8
 # These are indexed according to their corresponding algorithms!
-train_algorithm[0] = False
+train_algorithm[0] = True
 train_algorithm[1] = False
 train_algorithm[2] = False
 train_algorithm[3] = False
 train_algorithm[4] = False
 train_algorithm[5] = False
 train_algorithm[6] = False
-train_algorithm[7] = True
+train_algorithm[7] = False
 
 if train_algorithm[0]:
     RF, RT, VF, VT = model0_prep(False) # Opting to not use PCA or raw wav data this time.

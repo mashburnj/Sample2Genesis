@@ -17,14 +17,14 @@ test_algorithm = [False] * 8
 # These are indexed according to their corresponding algorithms!
 test_algorithm[0] = False
 test_algorithm[1] = False
-test_algorithm[2] = False
-test_algorithm[3] = False
-test_algorithm[4] = False
+test_algorithm[2] = True
+test_algorithm[3] = True
+test_algorithm[4] = True
 test_algorithm[5] = False
 test_algorithm[6] = False
-test_algorithm[7] = True
+test_algorithm[7] = False
 
-number_of_tests = 10
+number_of_tests = 2
 
 if test_algorithm[0]:
     results = pd.DataFrame(columns = ['loss','mean_square_error', 'mean_absolute_error'])

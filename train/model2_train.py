@@ -57,9 +57,7 @@ def model2_train(save_to_disk: bool, TrainFeatures, TrainTargets, ValFeatures, V
         layers.Dense(37, activation='relu')
     ]) # 41 numerical outputs, but only 37 if we exclude release.
     model2.compile(loss = 'mean_squared_error', optimizer = 'adam', metrics = ['mean_squared_error', 'mean_absolute_error'])
-    model2.fit(TrainFeatures,TrainTargets,epochs = 500, batch_size = 4)
-    loss  = model2.evaluate(ValFeatures, ValTargets)
-    print('Loss on Validation Set: ', loss)
+    model2.fit(TrainFeatures,TrainTargets,epochs = 400, batch_size = 3)
     if save_to_disk:
         # Saving model to JSON and weights to H5.
         os.chdir('..')
@@ -69,6 +67,8 @@ def model2_train(save_to_disk: bool, TrainFeatures, TrainTargets, ValFeatures, V
             json_file.write(model_json)
         model2.save_weights("model2.h5")
         print("Saved model to disk")
+    loss  = model2.evaluate(ValFeatures, ValTargets)
+    print('Loss on Validation Set: ', loss)
     return loss
 
 # If running this as a standalone, uncomment the following:
