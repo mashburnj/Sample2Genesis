@@ -6,6 +6,7 @@ from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler #Can also try MinMaxScaler or MaxAbsScaler
 from tensorflow.keras.models import Sequential, model_from_json # Will experiment with various architectures
 from tensorflow.keras import layers
+from rescale_output import rescale_output
 
 def model7_prep(use_wav: bool):
     # Load training and validation data.
@@ -34,9 +35,10 @@ def model7_prep(use_wav: bool):
         SampleFeatures = pca.transform(SampleFeatures)
         ValidationFeatures = pca.transform(ValidationFeatures)
         del pca
-    for DTcol in ['DT1', 'DT2', 'DT3', 'DT4']:
-        RegisterTargets[DTcol] = RegisterTargets[DTcol] + 4 # Make this non-zero for ReLU.
-        ValidationTargets[DTcol] = ValidationTargets[DTcol] + 4 # Make this non-zero for ReLU.
+    
+    # This will give each output variable equal weight, rather than, say, TL overpowering everything else.
+    RegisterTargets, ValidationTargets = rescale_output(RegisterTargets, ValidationTargets)
+
     return SampleFeatures, RegisterTargets, ValidationFeatures, ValidationTargets
 
 def model7_train(save_to_disk: bool, TrainFeatures, TrainTargets, ValFeatures, ValTargets):
@@ -51,9 +53,7 @@ def model7_train(save_to_disk: bool, TrainFeatures, TrainTargets, ValFeatures, V
         layers.Conv2D(4, 3, activation='relu'),
         layers.Flatten(),
         layers.Dense(200, activation='relu'),
-        layers.Dense(160, activation='relu'),
         layers.Dense(120, activation='relu'),
-        layers.Dense(80, activation='relu'),
         layers.Dense(37, activation='relu')
     ]) # 41 numerical outputs, but only 37 if we exclude release.
     model7.compile(loss = 'mean_squared_error', optimizer = 'adam', metrics = ['mean_squared_error', 'mean_absolute_error'])

@@ -26,32 +26,32 @@ train_algorithm[7] = True
 
 if train_algorithm[0]:
     RF, RT, VF, VT = model0_prep(False) # Opting to not use PCA or raw wav data this time.
-    model0_train(save_to_disk = True, RedFeatures = RF, RegTargets = RT, ValFeatures = VF, ValTargets = VT)
+    model0_train(save_to_disk = True, TrainFeatures = RF, TrainTargets = RT, ValFeatures = VF, ValTargets = VT)
 
 if train_algorithm[1]:
     RF, RT, VF, VT = model1_prep(False)
-    model1_train(save_to_disk = True, RedFeatures = RF, RegTargets = RT, ValFeatures = VF, ValTargets = VT)
+    model1_train(save_to_disk = True, TrainFeatures = RF, TrainTargets = RT, ValFeatures = VF, ValTargets = VT)
 
 if train_algorithm[2]:
     RF, RT, VF, VT = model2_prep(False)
-    model2_train(save_to_disk = True, RedFeatures = RF, RegTargets = RT, ValFeatures = VF, ValTargets = VT)
+    model2_train(save_to_disk = True, TrainFeatures = RF, TrainTargets = RT, ValFeatures = VF, ValTargets = VT)
 
 if train_algorithm[3]:
     RF, RT, VF, VT = model3_prep(False)
-    model3_train(save_to_disk = True, RedFeatures = RF, RegTargets = RT, ValFeatures = VF, ValTargets = VT)
+    model3_train(save_to_disk = True, TrainFeatures = RF, TrainTargets = RT, ValFeatures = VF, ValTargets = VT)
 
 if train_algorithm[4]:
     RF, RT, VF, VT = model4_prep(False)
-    model4_train(save_to_disk = True, RedFeatures = RF, RegTargets = RT, ValFeatures = VF, ValTargets = VT)
+    model4_train(save_to_disk = True, TrainFeatures = RF, TrainTargets = RT, ValFeatures = VF, ValTargets = VT)
 
 if train_algorithm[5]:
     RF, RT, VF, VT = model5_prep(False)
-    model5_train(save_to_disk = True, RedFeatures = RF, RegTargets = RT, ValFeatures = VF, ValTargets = VT)
+    model5_train(save_to_disk = True, TrainFeatures = RF, TrainTargets = RT, ValFeatures = VF, ValTargets = VT)
 
 if train_algorithm[6]:
     RF, RT, VF, VT = model6_prep(False)
-    model6_train(save_to_disk = True, RedFeatures = RF, RegTargets = RT, ValFeatures = VF, ValTargets = VT)
+    model6_train(save_to_disk = True, TrainFeatures = RF, TrainTargets = RT, ValFeatures = VF, ValTargets = VT)
 
 if train_algorithm[7]:
     RF, RT, VF, VT = model7_prep(False)
-    model7_train(save_to_disk = True, RedFeatures = RF, RegTargets = RT, ValFeatures = VF, ValTargets = VT)
+    model7_train(save_to_disk = True, TrainFeatures = RF, TrainTargets = RT, ValFeatures = VF, ValTargets = VT)

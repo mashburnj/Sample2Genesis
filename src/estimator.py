@@ -9,6 +9,7 @@ from sklearn.decomposition import PCA
 from tensorflow.keras.models import Sequential, model_from_json
 from tensorflow.keras import layers
 from convert_to_y12 import convert_to_y12
+from undo_rescale import undo_rescale
 
 def estimator(SampleName: str, algorithm: int):
     # Load sample
@@ -56,9 +57,7 @@ def estimator(SampleName: str, algorithm: int):
 
     predictions = model.predict(SampleFeatures)
 
-    predictions[0][3] -= 4 # To reverse the operation done to the training set.
-    predictions[0][12] -= 4 # Operation was done to make DT >= 0 due to using ReLU.
-    predictions[0][21] -= 4
-    predictions[0][30] -= 4
+    # This will rescale outputs to their appropriate pwr of 2 ranges.
+    predictions = undo_rescale(predictions)
     
     convert_to_y12(algorithm, predictions[0].round(), SampleName)
