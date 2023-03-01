@@ -5,50 +5,61 @@ import pickle as pk
 from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler #Can also try MinMaxScaler or MaxAbsScaler
 from tensorflow.keras.models import Sequential, model_from_json # Will experiment with various architectures
-from tensorflow.keras.layers import Dense
+from tensorflow.keras import layers
+from rescale_output import rescale_output
 
-def model4_prep():
-    # Load training data.
+def model4_prep(use_wav: bool):
+    # Load training and validation data.
     os.chdir('..')
     os.chdir('./data/')
     RegisterTargets = pd.read_csv('SampleRegisters4.csv', index_col = 0)
     SampleFeatures = pd.read_csv('SampleSpectra4.csv', index_col = 0)
-    SampleWav = pd.read_csv('SampleWav4.csv', index_col = 0)
-    SampleFeatures = pd.concat([SampleFeatures, SampleWav], axis = 1, join = 'inner')
-    del SampleWav
-    # Have to rescale before using PCA
-    scaler = StandardScaler()
-    SampleFeatures = scaler.fit_transform(SampleFeatures)
-    # Load PCA model for this set of data.
-    os.chdir('..')
-    os.chdir('./models/')
-    pca = pk.load(open('pca4.pkl','rb'))
-    ReducedFeatures = pca.transform(SampleFeatures)
-    del SampleFeatures
-    del pca
-    for DTcol in ['DT1', 'DT2', 'DT3', 'DT4']:
-        RegisterTargets[DTcol] = RegisterTargets[DTcol] + 4 # Make this non-zero for ReLU.
-    return ReducedFeatures, RegisterTargets
+    ValidationTargets = pd.read_csv('ValRegisters4.csv', index_col = 0)
+    ValidationFeatures = pd.read_csv('ValSpectra4.csv', index_col = 0)
+    
+    if use_wav:
+        SampleWav = pd.read_csv('SampleWav4.csv', index_col = 0)
+        SampleFeatures = pd.concat([SampleFeatures, SampleWav], axis = 1, join = 'inner')
+        del SampleWav
+        ValWav = pd.read_csv('ValWav4.csv', index_col = 0)
+        ValidationFeatures = pd.concat([ValidationFeatures, ValWav], axis = 1, join = 'inner')
+        del ValWav
+        # Have to rescale before using PCA
+        scaler = StandardScaler()
+        SampleFeatures = scaler.fit_transform(SampleFeatures)
+        ValidationFeatures = scaler.fit_transform(ValidationFeatures)
+        #Load PCA model for this set of data.
+        os.chdir('..')
+        os.chdir('./models/')
+        pca = pk.load(open('pca4.pkl','rb'))
+        SampleFeatures = pca.transform(SampleFeatures)
+        ValidationFeatures = pca.transform(ValidationFeatures)
+        del pca
+    
+    # This will give each output variable equal weight, rather than, say, TL overpowering everything else.
+    RegisterTargets, ValidationTargets = rescale_output(RegisterTargets, ValidationTargets)
 
-def model4_train(save_to_disk: bool, RedFeatures, RegTargets):
+    return SampleFeatures, RegisterTargets, ValidationFeatures, ValidationTargets
+
+def model4_train(save_to_disk: bool, TrainFeatures, TrainTargets, ValFeatures, ValTargets):
     # Building the model
-    model4 = Sequential()
-    model4.add(Dense(240, input_shape = (250,), activation='relu'))
-    model4.add(Dense(220, activation='relu'))
-    model4.add(Dense(200, activation='relu'))
-    model4.add(Dense(180, activation='relu'))
-    model4.add(Dense(160, activation='relu'))
-    model4.add(Dense(140, activation='relu'))
-    model4.add(Dense(120, activation='relu'))
-    model4.add(Dense(100, activation='relu'))
-    model4.add(Dense(80, activation='relu'))
-    model4.add(Dense(37, activation='relu')) # 41 numerical outputs, but only 37 if we exclude release.
-    # To do: experiment (more) with loss and optimizer options.
+    model4 = Sequential([
+        layers.Input(shape = (81141,)),
+        layers.Reshape((129, 629, 1)),
+        layers.Resizing(height = 129, width = 129),
+        layers.Normalization(mean = 126, variance = 165000), # Stdev ~= 406. Calculated from model 4's spectra csv.
+        layers.Conv2D(4, 3, activation='relu'),
+        layers.MaxPooling2D(),
+        layers.Conv2D(4, 3, activation='relu'),
+        layers.Flatten(),
+        layers.Dense(200, activation='relu'),
+        layers.Dense(120, activation='relu'),
+        layers.Dense(37, activation='relu')
+    ]) # 41 numerical outputs, but only 37 if we exclude release.
     model4.compile(loss = 'mean_squared_error', optimizer = 'adam', metrics = ['mean_squared_error', 'mean_absolute_error'])
-    model4.fit(RedFeatures,RegTargets,epochs = 750, batch_size = 3)
-    # To do: determine more insightful metrics. I know that MAPE is useless for my purposes, since we have zeros in our targets.
-    loss  = model4.evaluate(RedFeatures, RegTargets)
-    print('Loss: ', loss)
+    model4.fit(TrainFeatures,TrainTargets,epochs = 500, batch_size = 4)
+    loss  = model4.evaluate(ValFeatures, ValTargets)
+    print('Loss on Validation Set: ', loss)
     if save_to_disk:
         # Saving model to JSON and weights to H5.
         os.chdir('..')
@@ -61,5 +72,5 @@ def model4_train(save_to_disk: bool, RedFeatures, RegTargets):
     return loss
 
 # If running this as a standalone, uncomment the following:
-# RF, RT = model4_prep()
-# model4_train(save_to_disk = True, RF, RT)
+# RF, RT, VF, VT = model4_prep(use_wav = False)
+# model4_train(save_to_disk = True, RF, RT, VF, VT)
