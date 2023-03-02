@@ -51,6 +51,7 @@ def estimator(SampleName: str, algorithm: int):
     model = model_from_json(loaded_model_json)
     # load weights into new model
     model.load_weights('model'+ str(algorithm) + '.h5')
+    model.compile(loss = 'mean_squared_error', optimizer = 'adam', metrics = ['mean_squared_error', 'mean_absolute_error'])
     print("Loaded model from disk")
     
     predictions = model.predict(SampleFeatures)
