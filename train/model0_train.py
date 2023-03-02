@@ -60,8 +60,6 @@ def model0_train(save_to_disk: bool, TrainFeatures, TrainTargets, ValFeatures, V
     ]) # 41 numerical outputs, but only 37 if we exclude release.
     model0.compile(loss = 'mean_squared_error', optimizer = 'adam', metrics = ['mean_squared_error', 'mean_absolute_error'])
     model0.fit(TrainFeatures,TrainTargets,epochs = 500, batch_size = 4)
-    loss  = model0.evaluate(ValFeatures, ValTargets)
-    print('Loss on Validation Set: ', loss)
     if save_to_disk:
         # Saving model to JSON and weights to H5.
         os.chdir('..')
@@ -71,6 +69,8 @@ def model0_train(save_to_disk: bool, TrainFeatures, TrainTargets, ValFeatures, V
             json_file.write(model_json)
         model0.save_weights("model0.h5")
         print("Saved model to disk")
+    loss  = model0.evaluate(ValFeatures, ValTargets)
+    print('Loss on Validation Set: ', loss)
     backend.clear_session()
     del model0
     gc.collect()
