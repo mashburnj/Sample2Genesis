@@ -53,8 +53,6 @@ def estimator(SampleName: str, algorithm: int):
     model.load_weights('model'+ str(algorithm) + '.h5')
     print("Loaded model from disk")
     
-    #model.compile(loss='mean_square_error', optimizer='adam', metrics=['mean_square_error'])
-
     predictions = model.predict(SampleFeatures)
 
     # This will rescale outputs to their appropriate pwr of 2 ranges.
