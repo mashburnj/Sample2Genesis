@@ -1,4 +1,5 @@
-import numpy as npos
+import gc
+import numpy as np
 import os
 import pandas as pd
 import pickle as pk
@@ -6,6 +7,7 @@ from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler #Can also try MinMaxScaler or MaxAbsScaler
 from tensorflow.keras.models import Sequential, model_from_json # Will experiment with various architectures
 from tensorflow.keras import layers
+from tensorflow.keras import backend
 from rescale_output import rescale_output
 
 def model5_prep(use_wav: bool):
@@ -69,6 +71,9 @@ def model5_train(save_to_disk: bool, TrainFeatures, TrainTargets, ValFeatures, V
         print("Saved model to disk")
     loss  = model5.evaluate(ValFeatures, ValTargets)
     print('Loss on Validation Set: ', loss)
+    backend.clear_session()
+    del model5
+    gc.collect()
     return loss
 
 # If running this as a standalone, uncomment the following:
