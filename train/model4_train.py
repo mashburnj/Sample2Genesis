@@ -60,6 +60,16 @@ def model4_train(save_to_disk: bool, TrainFeatures, TrainTargets, ValFeatures, V
     ]) # 41 numerical outputs, but only 37 if we exclude release.
     model4.compile(loss = 'mean_squared_error', optimizer = 'adam', metrics = ['mean_squared_error', 'mean_absolute_error'])
     model4.fit(TrainFeatures,TrainTargets,epochs = 400, batch_size = 3)
+    # Have to save temp model files, then flush GPU RAM, then reload before validation
+    # because I've only got 2 GB of GPU RAM to work with...
+    os.chdir('..')
+    os.chdir('./models/')
+    # Saving temp model to disk
+    model_json = model4.to_json()
+    with open("model4temp.json", "w") as json_file:
+        json_file.write(model_json)
+    model4.save_weights("model4temp.h5")
+    # Saving model to disk
     if save_to_disk:
         # Saving model to JSON and weights to H5.
         os.chdir('..')
@@ -69,6 +79,18 @@ def model4_train(save_to_disk: bool, TrainFeatures, TrainTargets, ValFeatures, V
             json_file.write(model_json)
         model4.save_weights("model4.h5")
         print("Saved model to disk")
+    # Saving model to JSON and weights to H5.
+    backend.clear_session()
+    del model4
+    gc.collect()
+    # Reloading temp model after clearing GPU RAM.
+    json_file = open('model'+ str(algorithm) + 'temp.json', 'r')
+    loaded_model_json = json_file.read()
+    json_file.close()
+    model4 = model_from_json(loaded_model_json)
+    # load weights into new model
+    model4.load_weights('model'+ str(algorithm) + 'temp.h5')
+    model4.compile(loss = 'mean_squared_error', optimizer = 'adam', metrics = ['mean_squared_error', 'mean_absolute_error'])
     loss  = model4.evaluate(ValFeatures, ValTargets)
     print('Loss on Validation Set: ', loss)
     backend.clear_session()
