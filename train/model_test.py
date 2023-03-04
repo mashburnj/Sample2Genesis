@@ -18,11 +18,11 @@ test_algorithm = [False] * 8
 test_algorithm[0] = False
 test_algorithm[1] = False
 test_algorithm[2] = False
-test_algorithm[3] = True
-test_algorithm[4] = False # I'll need to figure out a way to test this without running out of GPU RAM.
-test_algorithm[5] = True
-test_algorithm[6] = True
-test_algorithm[7] = True
+test_algorithm[3] = False
+test_algorithm[4] = True
+test_algorithm[5] = False
+test_algorithm[6] = False
+test_algorithm[7] = False
 
 number_of_tests = 30
 

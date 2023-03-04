@@ -84,12 +84,12 @@ def model4_train(save_to_disk: bool, TrainFeatures, TrainTargets, ValFeatures, V
     del model4
     gc.collect()
     # Reloading temp model after clearing GPU RAM.
-    json_file = open('model'+ str(algorithm) + 'temp.json', 'r')
+    json_file = open('model4temp.json', 'r')
     loaded_model_json = json_file.read()
     json_file.close()
     model4 = model_from_json(loaded_model_json)
     # load weights into new model
-    model4.load_weights('model'+ str(algorithm) + 'temp.h5')
+    model4.load_weights('model4temp.h5')
     model4.compile(loss = 'mean_squared_error', optimizer = 'adam', metrics = ['mean_squared_error', 'mean_absolute_error'])
     loss  = model4.evaluate(ValFeatures, ValTargets)
     print('Loss on Validation Set: ', loss)
